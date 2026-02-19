@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ type }} Signup{% endblock %}
+
+{% block content %}
+
+<div class="signup-container">
+    <h2>{{ type }} Signup</h2>
+
+    <!-- Display non-field errors -->
+    {% if form.non_field_errors %}
+        <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Loop through form fields -->
+        {% for field in form %}
+            <div>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Sign Up</button>
+    </form>
+
+    <p>
+        Already have an account? <a href="{% url 'login' %}">Login here</a>
+    </p>
+</div>
+
+{% endblock %}

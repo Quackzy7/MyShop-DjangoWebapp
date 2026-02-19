@@ -1,0 +1,28 @@
+<style>
+    nav{
+        background-color: cadetblue;
+    }
+</style>
+<nav>
+    <div class="upper">
+        <div class="logo">Logo</div>
+        <div class="side">
+            <ul>
+                <li>Search</li>
+                <a href="{% url 'login'%}"><li>login</li></a>
+                <a href="{% url 'buyer_signup'%}"><li>Signup </li></a>
+                <a href="{% url 'seller_signup'%}"><li>Signup as seller</li></a>
+                <a ><li>Cart</li></a>
+                
+                
+            </ul>
+        </div>
+    </div>
+    <div class="refs">
+        <ul>
+            <li>
+                About
+            </li>
+        </ul>
+    </div>
+</nav>
