@@ -3,6 +3,8 @@ from store.models import Product
 from django.contrib.auth import login,authenticate,logout
 from .forms import BuyerSignUpForm, SellerSignUpForm,LoginForm
 from django.contrib import messages
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def display_products(request):
@@ -49,7 +51,7 @@ def user_login(request):
                 if user.is_seller():
                     return redirect('seller_dashboard')
                 else:
-                    return redirect('buyer_dashboard')
+                    return redirect('products')
             else:
                 form.add_error(None, "Invalid credentials")
     else:
@@ -60,4 +62,14 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
-    return redirect('login')
+    return redirect('login')   
+
+@login_required(login_url='login')
+def seller_dashboard(request):
+    if not request.user.is_seller():
+        return HttpResponseForbidden("You are not a seller")
+
+    products = Product.objects.filter(seller=request.user)
+    return render(request, 'store/seller_dashboard.html', {'products': products})
+
+
