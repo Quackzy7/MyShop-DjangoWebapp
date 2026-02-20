@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, SellerProfile, BuyerProfile
+from .models import CustomUser, SellerProfile, BuyerProfile,Product
 
 class BuyerSignUpForm(UserCreationForm):
     shipping_address = forms.CharField()
@@ -44,3 +44,8 @@ class SellerSignUpForm(UserCreationForm):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=150)
     password = forms.CharField(widget=forms.PasswordInput)
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model=Product
+        fields=['name','price','stock','description']

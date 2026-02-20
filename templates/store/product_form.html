@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Product form{% endblock %}
+
+{% block content %}
+
+
+
+<div class="login-container">
+    <h2>Product</h2>
+
+
+    {% if form.non_field_errors %}
+        <ul class="errorlist">
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+      
+        {% for field in form %}
+            <div>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <ul class="errorlist">
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Submit</button>
+    </form>
+
+</div>
+
+{% endblock %}

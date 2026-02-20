@@ -1,28 +1,30 @@
-<style>
-    nav{
-        background-color: cadetblue;
-    }
-</style>
 <nav>
-    <div class="upper">
-        <div class="logo">Logo</div>
-        <div class="side">
-            <ul>
-                <li>Search</li>
-                <a href="{% url 'login'%}"><li>login</li></a>
-                <a href="{% url 'buyer_signup'%}"><li>Signup </li></a>
-                <a href="{% url 'seller_signup'%}"><li>Signup as seller</li></a>
-                <a ><li>Cart</li></a>
-                
-                
-            </ul>
+    <div class="nav-container">
+        <div class="logo">
+            <a href="{% url 'products' %}">MyShop</a>
         </div>
-    </div>
-    <div class="refs">
-        <ul>
-            <li>
-                About
-            </li>
+        <ul class="nav-links">
+            <li><a href="#">Search</a></li>
+            <li><a href="#">Cart</a></li>
+
+            {% if user.is_authenticated %}
+                <li>
+                    <li class="welcome">Hello, {{ user.username }}</li>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit">Logout</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'buyer_signup' %}">Signup</a></li>
+                <li><a href="{% url 'seller_signup' %}">Signup as Seller</a></li>
+            {% endif %}
+        </ul>
+        <ul class="nav-refs">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
         </ul>
     </div>
 </nav>

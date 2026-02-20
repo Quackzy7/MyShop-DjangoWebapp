@@ -7,31 +7,30 @@
 
 {% include 'navbar.html' %}
 
-<main class="container">
+<h2>Seller Dashboard</h2>
 
-  {% for product in products %}
-    <a href="{% url 'product_detail' product.slug product.id %}" class="product-link">
-      <div class="product-card">
-        
-        <div class="name">
-          <h3>{{ product.name }}</h3>
-        </div>
-        
-        <div class="metadata">
-          <h4>Price: ${{ product.price }}</h4>
-        </div>
+<a href="{% url 'add_product' %}">Add Product</a>
 
-      </div>
-    </a>
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Actions</th>
+    </tr>
 
-  {% empty %}
-    <div class="empty-state">
-      <h2>No products available!</h2>
-      <p>Please check back later.</p>
-      <a href="/" class="btn">Continue Shopping</a>
-    </div>
-  {% endfor %}
-
-</main>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.stock }}</td>
+        <td>
+            <a href="{% url 'update_product' product.id %}">Edit</a>
+            <a href="{% url 'delete_product' product.id %}">Delete</a>
+        </td>
+    </tr>   
+    
+    {% endfor %}
+</table>
 
 {% endblock %}

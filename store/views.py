@@ -1,7 +1,7 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from store.models import Product
 from django.contrib.auth import login,authenticate,logout
-from .forms import BuyerSignUpForm, SellerSignUpForm,LoginForm
+from .forms import BuyerSignUpForm, SellerSignUpForm,LoginForm,ProductForm
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
@@ -62,7 +62,7 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
-    return redirect('login')   
+    return redirect('products')   
 
 @login_required(login_url='login')
 def seller_dashboard(request):
@@ -72,4 +72,44 @@ def seller_dashboard(request):
     products = Product.objects.filter(seller=request.user)
     return render(request, 'store/seller_dashboard.html', {'products': products})
 
+@login_required(login_url='login')
+def add_product(request):
+    if not request.user.is_seller():
+        return HttpResponseForbidden("You are not a seller")
+    
+    if request.method=="POST":
+        form=ProductForm(request.POST)
+        if form.is_valid():
+            product=form.save(commit=False)
+            product.seller=request.user
+            product.save()
+            return redirect("seller_dashboard")
+    else:
+        form=ProductForm()
+    return render(request,'store/product_form.html',{'form':form})
 
+@login_required(login_url='login')
+def delete_product(request,id):
+    product = get_object_or_404(Product, id=id)
+    if product.seller != request.user:
+        return HttpResponseForbidden("Not allowed")
+    if request.method == 'POST':
+        product.delete()
+        return redirect('seller_dashboard')
+    return render(request, 'store/confirm_delete.html', {'product': product})
+
+@login_required(login_url='login')
+def update_product(request,id):
+    product=get_object_or_404(Product,id=id)
+    if product.seller != request.user:
+        return HttpResponseForbidden("Not allowed")
+    if request.method=="POST":
+        form=ProductForm(request.POST,instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('seller_dashboard')
+    else:
+        form=ProductForm(instance=product)
+    return render(request,'store/product_form.html',{'form':form})
+
+        
