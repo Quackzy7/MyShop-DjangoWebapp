@@ -9,7 +9,7 @@ def buyer_signup(request):
         form = BuyerSignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user, backend='accounts.backends.EmailBackend')
             return redirect('products')
     else:
         form = BuyerSignUpForm()
@@ -21,8 +21,8 @@ def seller_signup(request):
         form=SellerSignUpForm(request.POST)
         if form.is_valid():
             user=form.save()
-            login(request,user)
-            return redirect('/products')
+            login(request, user, backend='accounts.backends.EmailBackend')
+            return redirect('seller_dashboard')
     else:
         form=SellerSignUpForm()
     return render(request,'accounts/signup.html',{'form':form,'type':'Seller'})    
@@ -31,9 +31,9 @@ def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid(): 
-            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
+            user = authenticate(request, username=email, password=password)
             if user:
                 login(request, user)
                 if user.is_seller():

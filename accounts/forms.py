@@ -4,20 +4,27 @@ from .models import CustomUser, BuyerProfile, SellerProfile
 
 TW = 'w-full px-3 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors bg-white'
 
+
 class BuyerSignUpForm(UserCreationForm):
-    shipping_address = forms.CharField(
-        widget=forms.Textarea(attrs={'class': TW, 'rows': 2})
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'First name'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'Last name'})
     )
     phone_number = forms.CharField(
-        widget=forms.TextInput(attrs={'class': TW})
+        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'e.g. 9800000000'})
+    )
+    shipping_address = forms.CharField(
+        widget=forms.Textarea(attrs={'class': TW, 'rows': 2, 'placeholder': 'Street, City, State, PIN'})
     )
 
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
         widgets = {
-            'username': forms.TextInput(attrs={'class': TW}),
-            'email': forms.EmailInput(attrs={'class': TW}),
+            'username': forms.TextInput(attrs={'class': TW, 'placeholder': '@handle'}),
+            'email': forms.EmailInput(attrs={'class': TW, 'placeholder': 'you@example.com'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -28,17 +35,28 @@ class BuyerSignUpForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.user_type = 'buyer'
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.phone_number = self.cleaned_data['phone_number']
         if commit:
             user.save()
             BuyerProfile.objects.create(
                 user=user,
-                shipping_address=self.cleaned_data['shipping_address'],
-                phone_number=self.cleaned_data['phone_number']
+                shipping_address=self.cleaned_data['shipping_address']
             )
         return user
 
 
 class SellerSignUpForm(UserCreationForm):
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'First name'})
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'Last name'})
+    )
+    phone_number = forms.CharField(
+        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'e.g. 9800000000'})
+    )
     shop_name = forms.CharField(
         widget=forms.TextInput(attrs={'class': TW})
     )
@@ -48,10 +66,10 @@ class SellerSignUpForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
         widgets = {
-            'username': forms.TextInput(attrs={'class': TW}),
-            'email': forms.EmailInput(attrs={'class': TW}),
+            'username': forms.TextInput(attrs={'class': TW, 'placeholder': '@handle'}),
+            'email': forms.EmailInput(attrs={'class': TW, 'placeholder': 'you@example.com'}),
         }
 
     def __init__(self, *args, **kwargs):
@@ -62,6 +80,9 @@ class SellerSignUpForm(UserCreationForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.user_type = 'seller'
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.phone_number = self.cleaned_data['phone_number']
         if commit:
             user.save()
             SellerProfile.objects.create(
@@ -73,8 +94,8 @@ class SellerSignUpForm(UserCreationForm):
 
 
 class LoginForm(forms.Form):
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': TW, 'placeholder': 'Username'})
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': TW, 'placeholder': 'you@example.com'})
     )
     password = forms.CharField(
         widget=forms.PasswordInput(attrs={'class': TW, 'placeholder': 'Password'})

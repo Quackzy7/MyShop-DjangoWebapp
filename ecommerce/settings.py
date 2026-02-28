@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
 
 MEDIA_URL='media/'
 MEDIA_ROOT=BASE_DIR/'media'
-
+AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend']
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 import os

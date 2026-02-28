@@ -17,16 +17,13 @@ def checkout(request):
     buyer_profile = BuyerProfile.objects.filter(user=request.user).first()
     if request.method == "POST":
         payment_method = request.POST.get("payment_method")
-        phone_number = request.POST.get("phone_number", "").strip()
         shipping_address = request.POST.get("shipping_address", "").strip()
         if buyer_profile:
-            buyer_profile.phone_number = phone_number
             buyer_profile.shipping_address = shipping_address
             buyer_profile.save()
         else:
             buyer_profile = BuyerProfile.objects.create(
                 user=request.user,
-                phone_number=phone_number,
                 shipping_address=shipping_address
             )
         order = Order.objects.create(
