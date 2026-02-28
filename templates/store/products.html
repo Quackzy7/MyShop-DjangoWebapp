@@ -1,39 +1,69 @@
 {% extends 'base.html' %}
 
-
-{% block title %}Products{% endblock %}
+{% block title %}Products — MyShop{% endblock %}
 
 {% block content %}
 
+<div class="max-w-7xl mx-auto px-4 py-8">
 
-
-{% include 'navbar.html' %}
-
-<main class="container">
-
-  {% for product in products %}
-    <a href="{% url 'product_detail' product.slug product.id %}" class="product-link">
-      <div class="product-card">
-        
-        <div class="name">
-          <h3>{{ product.name }}</h3>
-        </div>
-        
-        <div class="metadata">
-          <h4>Price: ${{ product.price }}</h4>
-        </div>
-
-      </div>
-    </a>
-
-  {% empty %}
-    <div class="empty-state">
-      <h2>No products available!</h2>
-      <p>Please check back later.</p>
-      <a href={% url 'products' %} class="btn">Continue Shopping</a>
+    <div class="flex items-center justify-between mb-6">
+        <h1 class="text-xl font-semibold text-gray-900">
+            {% if query %}
+                Results for "{{ query }}"
+                <span class="ml-2 text-sm font-normal text-gray-400">{{ products|length }} found</span>
+            {% else %}
+                All Products
+            {% endif %}
+        </h1>
     </div>
-  {% endfor %}
 
-</main>
+    <div class="flex flex-wrap gap-2 mb-8">
+        <a href="{% url 'products' %}"
+           class="px-3 py-1.5 text-sm rounded-full border transition-colors
+                  {% if not request.GET.category %}bg-gray-900 text-white border-gray-900{% else %}bg-white text-gray-600 border-gray-300 hover:border-gray-500{% endif %}">
+            All
+        </a>
+        {% for category in categories %}
+        <a href="?category={{ category.slug }}"
+           class="px-3 py-1.5 text-sm rounded-full border transition-colors
+                  {% if request.GET.category == category.slug %}bg-gray-900 text-white border-gray-900{% else %}bg-white text-gray-600 border-gray-300 hover:border-gray-500{% endif %}">
+            {{ category.name }}
+        </a>
+        {% endfor %}
+    </div>
+
+    {% if products %}
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for product in products %}
+        <a href="{% url 'product_detail' product.slug product.id %}" class="group block bg-white border border-gray-200 rounded-xl p-4 hover:border-gray-400 hover:shadow-sm transition-all">
+            {% if product.images.exists %}
+                <div class="aspect-square bg-gray-50 rounded-lg overflow-hidden mb-3">
+                    <img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                </div>
+            {% else %}
+                <div class="aspect-square bg-gray-100 rounded-lg mb-3 flex items-center justify-center">
+                    <svg class="h-8 w-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+            {% endif %}
+            <h3 class="text-sm font-medium text-gray-900 truncate">{{ product.name }}</h3>
+            <p class="mt-1 text-sm text-gray-500">${{ product.price }}</p>
+            {% if product.stock == 0 %}
+                <span class="mt-2 inline-block text-xs text-red-500">Out of stock</span>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="py-24 text-center">
+        <p class="text-gray-400 text-lg mb-4">No products found.</p>
+        <a href="{% url 'products' %}" class="px-4 py-2 text-sm bg-gray-900 text-white rounded-lg hover:bg-gray-700 transition-colors">
+            Clear filters
+        </a>
+    </div>
+    {% endif %}
+
+</div>
 
 {% endblock %}

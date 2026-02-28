@@ -1,15 +1,36 @@
 {% extends "base.html" %}
 
-{% block title %}Confirm Delete{% endblock %}
+{% block title %}Delete {{ product.name }} — MyShop{% endblock %}
 
 {% block content %}
-<h2>Confirm Delete</h2>
 
-<p>Are you sure you want to delete the product: <strong>{{ product.name }}</strong>?</p>
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+    <div class="w-full max-w-sm text-center">
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Yes, Delete</button>
-    <a href="{% url 'seller_dashboard' %}">Cancel</a>
-</form>
+        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5">
+            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+        </div>
+
+        <h1 class="text-xl font-semibold text-gray-900">Delete product?</h1>
+        <p class="mt-2 text-sm text-gray-500">
+            You're about to permanently delete <span class="font-medium text-gray-700">{{ product.name }}</span>. This cannot be undone.
+        </p>
+
+        <div class="mt-8 flex gap-3 justify-center">
+            <a href="{% url 'seller_dashboard' %}" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                Cancel
+            </a>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
+                    Yes, Delete
+                </button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
 {% endblock %}

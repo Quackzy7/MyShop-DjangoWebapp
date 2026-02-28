@@ -1,59 +1,71 @@
 {% extends 'base.html' %}
 
-{% block title %}Product form{% endblock %}
+{% block title %}{% if product %}Edit Product{% else %}Add Product{% endif %} — MyShop{% endblock %}
 
 {% block content %}
 
+<div class="max-w-2xl mx-auto px-4 py-10">
 
-
-<div class="login-container">
-    <h2>Product</h2>
-
+    <div class="mb-8">
+        <a href="{% url 'seller_dashboard' %}" class="text-sm text-gray-400 hover:text-gray-700 transition-colors">
+            ← Back to Dashboard
+        </a>
+        <h1 class="mt-3 text-2xl font-semibold text-gray-900">
+            {% if product %}Edit Product{% else %}Add New Product{% endif %}
+        </h1>
+    </div>
 
     {% if form.non_field_errors %}
-        <ul class="errorlist">
+        <div class="mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
             {% for error in form.non_field_errors %}
-                <li>{{ error }}</li>
+                <p>{{ error }}</p>
             {% endfor %}
-        </ul>
+        </div>
     {% endif %}
 
-    <form method="POST" enctype="multipart/form-data">
+    <form method="POST" enctype="multipart/form-data" class="space-y-5">
         {% csrf_token %}
 
-      
         {% for field in form %}
-            <div>
-                {{ field.label_tag }}
-                {{ field }}
-                {% if field.errors %}
-                    <ul class="errorlist">
-                        {% for error in field.errors %}
-                            <li>{{ error }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </div>
+        <div>
+            <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                {{ field.label }}
+            </label>
+            {{ field }}
+            {% for error in field.errors %}
+                <p class="mt-1 text-xs text-red-600">{{ error }}</p>
+            {% endfor %}
+        </div>
         {% endfor %}
 
-        <input type="file" name="images" multiple>
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Product Images</label>
+            <div class="border border-dashed border-gray-300 rounded-lg px-4 py-6 text-center hover:border-gray-400 transition-colors">
+                <input type="file" name="images" multiple class="text-sm text-gray-500">
+                <p class="mt-2 text-xs text-gray-400">You can select multiple images</p>
+            </div>
+        </div>
 
-        <button type="submit">Submit</button>
+        <div class="pt-2">
+            <button type="submit" class="px-6 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                {% if product %}Save Changes{% else %}Add Product{% endif %}
+            </button>
+        </div>
     </form>
 
-</div>
-
-
-
-{%if product%}
-<hr>
-<h3>Current Images</h3>
-{% for img in product.images.all %}
-    <div>
-        <img src="{{ img.image.url }}" width="120">
-        
+    {% if product and product.images.exists %}
+    <div class="mt-10 pt-8 border-t border-gray-200">
+        <h3 class="text-sm font-medium text-gray-700 mb-4">Current Images</h3>
+        <div class="grid grid-cols-4 gap-3">
+            {% for img in product.images.all %}
+            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                <img src="{{ img.image.url }}" alt="" class="w-full h-full object-cover">
+            </div>
+            {% endfor %}
+        </div>
     </div>
-{% endfor %}
-{% endif %}
+    {% endif %}
+
+</div>
 
 {% endblock %}

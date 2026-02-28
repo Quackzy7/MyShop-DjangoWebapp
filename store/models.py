@@ -1,31 +1,23 @@
+
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 # Create your models here.
-class CustomUser(AbstractUser):
-    USER_TYPE_CHOICES=(
-        ('buyer','Buyer'),
-        ('seller','Seller'),
-    )
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True, blank=True)
 
-    user_type=models.CharField(max_length=10,choices=USER_TYPE_CHOICES,default='buyer')
+    class Meta:
+        verbose_name_plural = "Categories"
 
-    def is_seller(self):
-        return self.user_type=='seller'
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
-    def is_buyer(self):
-        return self.user_type=='buyer'
-    
-class SellerProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    shop_name = models.CharField(max_length=100)
-    gst_number = models.CharField(max_length=20)
-
-class BuyerProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    shipping_address = models.TextField()
-    phone_number = models.CharField(max_length=15)
+    def __str__(self):
+        return self.name
 
 class Product(models.Model):
     name=models.CharField(max_length=100,null=False,blank=False)
@@ -33,7 +25,8 @@ class Product(models.Model):
     stock=models.IntegerField(default=0)
     description=models.TextField(blank=True,null=True)
     slug = models.SlugField(blank=True)
-    seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='products')
+    seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products')
+    category=models.ForeignKey(Category,on_delete=models.SET_NULL,null=True,related_name='products')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
@@ -55,3 +48,4 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.product.name}"
+    

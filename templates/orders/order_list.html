@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders — MyShop{% endblock %}
+
+{% block content %}
+
+<div class="max-w-3xl mx-auto px-4 py-10">
+
+    <h1 class="text-2xl font-semibold text-gray-900 mb-8">My Orders</h1>
+
+    {% if orders %}
+    <div class="space-y-3">
+        {% for order in orders %}
+        <a href="{% url 'order_detail' order.id %}" class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4 hover:border-gray-400 hover:shadow-sm transition-all">
+            <div>
+                <p class="text-sm font-medium text-gray-900">Order #{{ order.id }}</p>
+                <p class="text-sm text-gray-400 mt-0.5">{{ order.items.count }} item{{ order.items.count|pluralize }}</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                    {% if order.payment.status == 'paid' %}bg-green-100 text-green-700
+                    {% elif order.payment.status == 'failed' %}bg-red-100 text-red-600
+                    {% else %}bg-gray-100 text-gray-500{% endif %}">
+                    Payment {{ order.payment.status|capfirst }}
+                </span>
+                <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                    {% if order.overall_status == 'delivered' %}bg-green-100 text-green-700
+                    {% elif order.overall_status == 'cancelled' %}bg-red-100 text-red-600
+                    {% elif order.overall_status == 'shipped' %}bg-blue-100 text-blue-700
+                    {% else %}bg-gray-100 text-gray-500{% endif %}">
+                    Order {{ order.overall_status|capfirst }}
+                </span>
+                <svg class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="py-24 text-center border border-dashed border-gray-300 rounded-xl bg-white">
+        <svg class="h-10 w-10 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <p class="text-gray-400 mb-4">No orders yet.</p>
+        <a href="{% url 'products' %}" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+            Start Shopping
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

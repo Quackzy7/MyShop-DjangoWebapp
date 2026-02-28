@@ -39,7 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store',
+    'accounts',
+    'cart',
+    'orders',
+    'tailwind',
+    'theme'
 ]
+
+TAILWIND_APP_NAME = 'theme'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -121,10 +128,17 @@ STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR /"static",
 ]
-
-AUTH_USER_MODEL = 'store.CustomUser'
 
 MEDIA_URL='media/'
 MEDIA_ROOT=BASE_DIR/'media'
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+import os
+from dotenv import load_dotenv
+load_dotenv(BASE_DIR / '.env')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+

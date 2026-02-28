@@ -1,10 +1,9 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from store.models import Product,ProductImage
-from django.contrib.auth import login,authenticate,logout
-from .forms import BuyerSignUpForm, SellerSignUpForm,LoginForm,ProductForm
-from django.contrib import messages
+from store.models import Product,ProductImage,Category
+from .forms import ProductForm
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 # Create your views here.
 
 def home(request):
@@ -12,62 +11,22 @@ def home(request):
     return render(request, "store/home.html", {"products": products})
 
 def display_products(request):
+    query=request.GET.get("q")
+    category_slug=request.GET.get("category")
+
     products=Product.objects.all()
-    context={'products':products}
+    categories=Category.objects.all()
+    if query:
+        products=products.filter(Q(name__icontains=query)|Q(description__icontains=query))
+    if category_slug:
+        products = products.filter(category__slug=category_slug)
+    context={'products':products,'query':query,'categories':categories}
     return render(request,'store/products.html',context)
 
 def product_detail(request,slug,id):
     product = get_object_or_404(Product, id=id)
     return render(request, 'store/product_detail.html', {'product': product})
     
-def buyer_signup(request):
-    if request.method == 'POST':
-        form = BuyerSignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('/')
-    else:
-        form = BuyerSignUpForm()
-    return render(request, 'store/signup.html', {'form': form, 'type': 'Buyer'})
-
-def seller_signup(request):
-
-    if request.method=="POST":
-        form=SellerSignUpForm(request.POST)
-        if form.is_valid():
-            user=form.save()
-            login(request,user)
-            return redirect('/products')
-    else:
-        form=SellerSignUpForm()
-    return render(request,'store/signup.html',{'form':form,'type':'Seller'})    
-
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid(): 
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user:
-                login(request, user)
-                if user.is_seller():
-                    return redirect('seller_dashboard')
-                else:
-                    return redirect('products')
-            else:
-                form.add_error(None, "Invalid credentials")
-    else:
-        form = LoginForm()
-
-    return render(request, 'store/login.html', {'form': form})
-
-def user_logout(request):
-    logout(request)
-    messages.success(request, "You have successfully logged out.")
-    return redirect('products')   
-
 @login_required(login_url='login')
 def seller_dashboard(request):
     if not request.user.is_seller():

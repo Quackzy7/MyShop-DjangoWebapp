@@ -1,51 +1,14 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser, SellerProfile, BuyerProfile,Product
-
-class BuyerSignUpForm(UserCreationForm):
-    shipping_address = forms.CharField()
-    phone_number = forms.CharField()
-    class Meta:
-        model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.user_type = 'buyer'
-        if commit:
-            user.save()
-            BuyerProfile.objects.create(
-                user=user,
-                shipping_address=self.cleaned_data['shipping_address'],
-                phone_number=self.cleaned_data['phone_number']
-            )
-        return user
-    
-class SellerSignUpForm(UserCreationForm):
-    shop_name = forms.CharField()
-    gst_number = forms.CharField()
-
-    class Meta(UserCreationForm.Meta):
-        model = CustomUser
-        fields = ('username', 'email', 'password1', 'password2')
-
-    def save(self,commit=True):
-        user=super().save(commit=False)
-        user.user_type='seller'
-        if commit:
-            user.save()
-            SellerProfile.objects.create(
-                user=user,
-                shop_name=self.cleaned_data['shop_name'],
-                gst_number=self.cleaned_data['gst_number']
-            )
-        return user
-    
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=150)
-    password = forms.CharField(widget=forms.PasswordInput)
-
+from .models import Product
+TW = 'w-full px-3 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors bg-white'
 class ProductForm(forms.ModelForm):
     class Meta:
-        model=Product
-        fields=['name','price','stock','description']
+        model = Product
+        fields = ['name', 'price', 'stock', 'description', 'category']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': TW, 'placeholder': 'Product name'}),
+            'price': forms.NumberInput(attrs={'class': TW, 'placeholder': '0.00'}),
+            'stock': forms.NumberInput(attrs={'class': TW, 'placeholder': '0'}),
+            'description': forms.Textarea(attrs={'class': TW, 'rows': 4, 'placeholder': 'Describe your product...'}),
+            'category': forms.Select(attrs={'class': TW}),
+        }

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout — MyShop{% endblock %}
+
+{% block content %}
+
+<div class="min-h-[70vh] flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-sm">
+
+        <div class="mb-8 text-center">
+            <h1 class="text-2xl font-semibold text-gray-900">Checkout</h1>
+            <p class="mt-1 text-sm text-gray-500">Review your details and place your order</p>
+        </div>
+
+        <form method="post" class="space-y-6">
+            {% csrf_token %}
+
+            <div class="space-y-3">
+                <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Delivery Details</h2>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                    <input
+                        type="text"
+                        name="phone_number"
+                        value="{{ buyer_profile.phone_number }}"
+                        placeholder="e.g. 9851244321"
+                        required
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors bg-white"
+                    >
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Shipping Address</label>
+                    <textarea
+                        name="shipping_address"
+                        rows="3"
+                        placeholder="Street, City, State, PIN"
+                        required
+                        class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg outline-none focus:border-gray-500 focus:ring-1 focus:ring-gray-500 transition-colors bg-white resize-none"
+                    >{{ buyer_profile.shipping_address }}</textarea>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Payment Method</h2>
+
+                <label class="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-400 transition-colors has-[:checked]:border-gray-900 has-[:checked]:ring-1 has-[:checked]:ring-gray-900">
+                    <input type="radio" name="payment_method" value="stripe" required class="accent-gray-900">
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">Online Payment</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Pay securely with Stripe</p>
+                    </div>
+                </label>
+
+                <label class="flex items-center gap-4 p-4 bg-white border border-gray-200 rounded-xl cursor-pointer hover:border-gray-400 transition-colors has-[:checked]:border-gray-900 has-[:checked]:ring-1 has-[:checked]:ring-gray-900">
+                    <input type="radio" name="payment_method" value="cod" class="accent-gray-900">
+                    <div>
+                        <p class="text-sm font-medium text-gray-900">Cash on Delivery</p>
+                        <p class="text-xs text-gray-400 mt-0.5">Pay when your order arrives</p>
+                    </div>
+                </label>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 px-4 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+                Place Order
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
