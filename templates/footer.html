@@ -1,62 +1,64 @@
 {% load static %}
-<footer class="border-t border-gray-200 bg-white mt-auto">
+<footer style="border-top:1px solid #FDE8D8; background:#FFF7ED;" class="mt-auto">
     <div class="max-w-7xl mx-auto px-4 py-10">
 
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-10">
 
             <div class="col-span-2 sm:col-span-1">
-                <a href="{% url 'home' %}" class="text-lg font-semibold text-gray-900">MyShop</a>
-                <p class="mt-2 text-sm text-gray-400 leading-relaxed">
+                <a href="{% url 'home' %}" class="text-lg font-bold" style="color:#1C0A00;">MyShop</a>
+                <p class="mt-2 text-sm leading-relaxed" style="color:#92400E;">
                     A marketplace for buyers and sellers to connect and trade.
                 </p>
             </div>
 
             <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Shop</p>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="{% url 'products' %}" class="hover:text-gray-900 transition-colors">All Products</a></li>
-                    <li><a href="{% url 'cart_detail' %}" class="hover:text-gray-900 transition-colors">Cart</a></li>
+                <p class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:#FDA07A;">Shop</p>
+                <ul class="space-y-2 text-sm" style="color:#78350F;">
+                    <li><a href="{% url 'products' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">All Products</a></li>
+                    <li><a href="{% url 'cart_detail' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Cart</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'order_list' %}" class="hover:text-gray-900 transition-colors">My Orders</a></li>
+                    <li><a href="{% url 'order_list' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">My Orders</a></li>
                     {% endif %}
                 </ul>
             </div>
 
             <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Sell</p>
-                <ul class="space-y-2 text-sm text-gray-500">
+                <p class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:#FDA07A;">Sell</p>
+                <ul class="space-y-2 text-sm" style="color:#78350F;">
                     {% if user.is_authenticated and user.is_seller %}
-                    <li><a href="{% url 'seller_dashboard' %}" class="hover:text-gray-900 transition-colors">Dashboard</a></li>
-                    <li><a href="{% url 'add_product' %}" class="hover:text-gray-900 transition-colors">Add Product</a></li>
-                    <li><a href="{% url 'seller_order_items' %}" class="hover:text-gray-900 transition-colors">Incoming Orders</a></li>
+                    <li><a href="{% url 'seller_dashboard' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Dashboard</a></li>
+                    <li><a href="{% url 'add_product' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Add Product</a></li>
+                    <li><a href="{% url 'seller_order_items' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Incoming Orders</a></li>
                     {% else %}
-                    <li><a href="{% url 'seller_signup' %}" class="hover:text-gray-900 transition-colors">Become a Seller</a></li>
+                    <li><a href="{% url 'seller_signup' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Become a Seller</a></li>
                     {% endif %}
                 </ul>
             </div>
 
             <div>
-                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">Account</p>
-                <ul class="space-y-2 text-sm text-gray-500">
+                <p class="text-xs font-semibold uppercase tracking-wide mb-3" style="color:#FDA07A;">Account</p>
+                <ul class="space-y-2 text-sm" style="color:#78350F;">
                     {% if user.is_authenticated %}
-                    <form action="{% url 'logout' %}" method="post" class="inline">
-                        {% csrf_token %}
-                        <button type="submit" class="hover:text-gray-900 transition-colors">Logout</button>
-                    </form>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post" class="inline">
+                            {% csrf_token %}
+                            <button type="submit" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Logout</button>
+                        </form>
+                    </li>
                     {% else %}
-                    <li><a href="{% url 'login' %}" class="hover:text-gray-900 transition-colors">Login</a></li>
-                    <li><a href="{% url 'buyer_signup' %}" class="hover:text-gray-900 transition-colors">Sign Up</a></li>
+                    <li><a href="{% url 'login' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Login</a></li>
+                    <li><a href="{% url 'buyer_signup' %}" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Sign Up</a></li>
                     {% endif %}
                 </ul>
             </div>
 
         </div>
 
-        <div class="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
-            <p>&copy; {% now "Y" %} MyShop. All rights reserved.</p>
+        <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs" style="border-top:1px solid #FDE8D8; color:#FDA07A;">
+            <p style="color:#92400E;">&copy; {% now "Y" %} MyShop. All rights reserved.</p>
             <div class="flex gap-4">
-                <a href="#" class="hover:text-gray-600 transition-colors">Privacy Policy</a>
-                <a href="#" class="hover:text-gray-600 transition-colors">Terms of Service</a>
+                <a href="#" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#FDA07A'">Privacy Policy</a>
+                <a href="#" class="transition-colors" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#FDA07A'">Terms of Service</a>
             </div>
         </div>
 

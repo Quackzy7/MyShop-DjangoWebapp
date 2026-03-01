@@ -6,48 +6,50 @@
 
 <div class="max-w-5xl mx-auto px-4 py-10">
 
-    <h1 class="text-2xl font-semibold text-gray-900 mb-8">Incoming Orders</h1>
+    <h1 class="text-2xl font-bold mb-8" style="color:#1C0A00;">Incoming Orders</h1>
 
     {% if items %}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="rounded-2xl overflow-hidden" style="border:1px solid #FDE8D8;">
         <table class="w-full text-sm">
             <thead>
-                <tr class="border-b border-gray-200 bg-gray-50">
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Order</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Product</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Buyer</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Qty</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Payment</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th>
-                    <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Action</th>
+                <tr style="border-bottom:1px solid #FDE8D8; background:#FFF7ED;">
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Order</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Product</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Buyer</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Qty</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Payment</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Status</th>
+                    <th class="text-right px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Action</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody>
                 {% for item in items %}
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-5 py-4 font-medium text-gray-900">#{{ item.order.id }}</td>
-                    <td class="px-5 py-4 text-gray-700">{{ item.product.name }}</td>
-                    <td class="px-5 py-4 text-gray-500">{{ item.order.user.username }}</td>
-                    <td class="px-5 py-4 text-gray-500">{{ item.quantity }}</td>
+                <tr style="border-bottom:1px solid #FEF3EC; background:#FFFFFF;" onmouseover="this.style.background='#FFFBF5'" onmouseout="this.style.background='#FFFFFF'">
+                    <td class="px-5 py-4 font-semibold" style="color:#1C0A00;">#{{ item.order.id }}</td>
+                    <td class="px-5 py-4" style="color:#78350F;">{{ item.product.name }}</td>
+                    <td class="px-5 py-4" style="color:#92400E;">{{ item.order.user.username }}</td>
+                    <td class="px-5 py-4" style="color:#92400E;">{{ item.quantity }}</td>
                     <td class="px-5 py-4">
-                        <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium
                             {% if item.order.payment.status == 'paid' %}bg-green-100 text-green-700
                             {% elif item.order.payment.status == 'failed' %}bg-red-100 text-red-600
-                            {% else %}bg-gray-100 text-gray-500{% endif %}">
+                            {% else %}text-orange-700{% endif %}"
+                            {% if item.order.payment.status != 'paid' and item.order.payment.status != 'failed' %}style="background:#FEF3EC;"{% endif %}>
                             {{ item.order.payment.status|capfirst }}
                         </span>
                     </td>
                     <td class="px-5 py-4">
-                        <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium
                             {% if item.status == 'delivered' %}bg-green-100 text-green-700
                             {% elif item.status == 'cancelled' %}bg-red-100 text-red-600
                             {% elif item.status == 'shipped' %}bg-blue-100 text-blue-700
-                            {% else %}bg-gray-100 text-gray-500{% endif %}">
+                            {% else %}text-orange-700{% endif %}"
+                            {% if item.status != 'delivered' and item.status != 'cancelled' and item.status != 'shipped' %}style="background:#FEF3EC;"{% endif %}>
                             {{ item.status|capfirst }}
                         </span>
                     </td>
                     <td class="px-5 py-4 text-right">
-                        <a href="{% url 'update_order_item' item.id %}" class="text-sm text-gray-600 hover:text-gray-900 transition-colors">
+                        <a href="{% url 'update_order_item' item.id %}" class="text-sm font-medium transition-colors" style="color:#EA580C;" onmouseover="this.style.color='#C2410C'" onmouseout="this.style.color='#EA580C'">
                             Update
                         </a>
                     </td>
@@ -58,11 +60,11 @@
     </div>
 
     {% else %}
-    <div class="py-24 text-center border border-dashed border-gray-300 rounded-xl bg-white">
-        <svg class="h-10 w-10 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="py-24 text-center rounded-2xl" style="border:2px dashed #FDDCCA; background:#FFFBF5;">
+        <svg class="h-10 w-10 mx-auto mb-4" style="color:#FDDCCA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
         </svg>
-        <p class="text-gray-400">No orders yet.</p>
+        <p style="color:#FDA07A;">No orders yet.</p>
     </div>
     {% endif %}
 

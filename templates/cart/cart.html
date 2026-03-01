@@ -6,37 +6,37 @@
 
 <div class="max-w-3xl mx-auto px-4 py-10">
 
-    <h1 class="text-2xl font-semibold text-gray-900 mb-8">Your Cart</h1>
+    <h1 class="text-2xl font-bold mb-8" style="color:#1C0A00;">Your Cart</h1>
 
     {% if cart.items.all %}
 
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden mb-6">
-        <div class="divide-y divide-gray-100">
+    <div class="rounded-2xl overflow-hidden mb-6" style="background:#FFFFFF; border:1px solid #FDE8D8;">
+        <div>
             {% for item in cart.items.all %}
-            <div class="flex items-center justify-between px-5 py-4 gap-4">
+            <div class="flex items-center justify-between px-5 py-4 gap-4" style="border-bottom:1px solid #FEF3EC;">
 
                 <div class="flex items-center gap-4 flex-1 min-w-0">
                     {% if item.product.images.exists %}
-                        <div class="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 shrink-0">
+                        <div class="w-14 h-14 rounded-xl overflow-hidden shrink-0" style="background:#FFF7ED;">
                             <img src="{{ item.product.images.first.image.url }}" alt="{{ item.product.name }}" class="w-full h-full object-cover">
                         </div>
                     {% else %}
-                        <div class="w-14 h-14 rounded-lg bg-gray-100 shrink-0 flex items-center justify-center">
-                            <svg class="h-6 w-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <div class="w-14 h-14 rounded-xl shrink-0 flex items-center justify-center" style="background:#FFF7ED;">
+                            <svg class="h-6 w-6" style="color:#FDDCCA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
                         </div>
                     {% endif %}
 
                     <div class="min-w-0">
-                        <p class="text-sm font-medium text-gray-900 truncate">{{ item.product.name }}</p>
-                        <p class="text-sm text-gray-400 mt-0.5">Qty: {{ item.quantity }}</p>
+                        <p class="text-sm font-medium truncate" style="color:#1C0A00;">{{ item.product.name }}</p>
+                        <p class="text-xs mt-0.5" style="color:#FDA07A;">Qty: {{ item.quantity }}</p>
                     </div>
                 </div>
 
                 <div class="flex items-center gap-5 shrink-0">
-                    <span class="text-sm font-medium text-gray-900">${{ item.total_price }}</span>
-                    <a href="{% url 'remove_from_cart' item.id %}" class="text-sm text-red-500 hover:text-red-700 transition-colors">
+                    <span class="text-sm font-semibold" style="color:#EA580C;">${{ item.total_price }}</span>
+                    <a href="{% url 'remove_from_cart' item.id %}" class="text-xs font-medium transition-colors" style="color:#DC2626;" onmouseover="this.style.color='#991B1B'" onmouseout="this.style.color='#DC2626'">
                         Remove
                     </a>
                 </div>
@@ -46,24 +46,24 @@
         </div>
     </div>
 
-    <div class="bg-white border border-gray-200 rounded-xl px-5 py-4 flex items-center justify-between">
+    <div class="rounded-2xl px-5 py-4 flex items-center justify-between" style="background:#FFFFFF; border:1px solid #FDE8D8;">
         <div>
-            <p class="text-sm text-gray-500">Grand Total</p>
-            <p class="text-xl font-semibold text-gray-900 mt-0.5">${{ cart.total_price }}</p>
+            <p class="text-sm" style="color:#92400E;">Grand Total</p>
+            <p class="text-2xl font-bold mt-0.5" style="color:#EA580C;">${{ cart.total_price }}</p>
         </div>
-        <a href="{% url 'checkout' %}" class="px-6 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
-            Checkout
+        <a href="{% url 'checkout' %}" class="px-6 py-2.5 text-sm font-semibold rounded-xl transition-colors" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
+            Checkout →
         </a>
     </div>
 
     {% else %}
 
-    <div class="py-24 text-center border border-dashed border-gray-300 rounded-xl bg-white">
-        <svg class="h-10 w-10 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="py-24 text-center rounded-2xl" style="border:2px dashed #FDDCCA; background:#FFFBF5;">
+        <svg class="h-10 w-10 mx-auto mb-4" style="color:#FDDCCA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.5 6h13M7 13L5.4 5M10 21a1 1 0 1 0 2 0 1 1 0 0 0-2 0zm6 0a1 1 0 1 0 2 0 1 1 0 0 0-2 0z"/>
         </svg>
-        <p class="text-gray-400 mb-4">Your cart is empty.</p>
-        <a href="{% url 'products' %}" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+        <p class="mb-4" style="color:#FDA07A;">Your cart is empty.</p>
+        <a href="{% url 'products' %}" class="px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
             Browse Products
         </a>
     </div>

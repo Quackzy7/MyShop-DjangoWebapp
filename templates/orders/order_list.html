@@ -6,31 +6,33 @@
 
 <div class="max-w-3xl mx-auto px-4 py-10">
 
-    <h1 class="text-2xl font-semibold text-gray-900 mb-8">My Orders</h1>
+    <h1 class="text-2xl font-bold mb-8" style="color:#1C0A00;">My Orders</h1>
 
     {% if orders %}
     <div class="space-y-3">
         {% for order in orders %}
-        <a href="{% url 'order_detail' order.id %}" class="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-5 py-4 hover:border-gray-400 hover:shadow-sm transition-all">
+        <a href="{% url 'order_detail' order.id %}" class="flex items-center justify-between px-5 py-4 rounded-2xl transition-all" style="background:#FFFFFF; border:1px solid #FDE8D8;" onmouseover="this.style.borderColor='#FDDCCA'; this.style.boxShadow='0 4px 12px rgba(194,65,12,0.08)'" onmouseout="this.style.borderColor='#FDE8D8'; this.style.boxShadow='none'">
             <div>
-                <p class="text-sm font-medium text-gray-900">Order #{{ order.id }}</p>
-                <p class="text-sm text-gray-400 mt-0.5">{{ order.items.count }} item{{ order.items.count|pluralize }}</p>
+                <p class="text-sm font-semibold" style="color:#1C0A00;">Order #{{ order.id }}</p>
+                <p class="text-xs mt-0.5" style="color:#FDA07A;">{{ order.items.count }} item{{ order.items.count|pluralize }}</p>
             </div>
-            <div class="flex items-center gap-3">
-                <span class="px-2 py-0.5 rounded-full text-xs font-medium
+            <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium
                     {% if order.payment.status == 'paid' %}bg-green-100 text-green-700
                     {% elif order.payment.status == 'failed' %}bg-red-100 text-red-600
-                    {% else %}bg-gray-100 text-gray-500{% endif %}">
+                    {% else %}text-orange-700{% endif %}"
+                    {% if order.payment.status != 'paid' and order.payment.status != 'failed' %}style="background:#FEF3EC;"{% endif %}>
                     Payment {{ order.payment.status|capfirst }}
                 </span>
-                <span class="px-2 py-0.5 rounded-full text-xs font-medium
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium
                     {% if order.overall_status == 'delivered' %}bg-green-100 text-green-700
                     {% elif order.overall_status == 'cancelled' %}bg-red-100 text-red-600
                     {% elif order.overall_status == 'shipped' %}bg-blue-100 text-blue-700
-                    {% else %}bg-gray-100 text-gray-500{% endif %}">
-                    Order {{ order.overall_status|capfirst }}
+                    {% else %}text-orange-700{% endif %}"
+                    {% if order.overall_status != 'delivered' and order.overall_status != 'cancelled' and order.overall_status != 'shipped' %}style="background:#FEF3EC;"{% endif %}>
+                    {{ order.overall_status|capfirst }}
                 </span>
-                <svg class="h-4 w-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg class="h-4 w-4" style="color:#FDDCCA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                 </svg>
             </div>
@@ -39,12 +41,12 @@
     </div>
 
     {% else %}
-    <div class="py-24 text-center border border-dashed border-gray-300 rounded-xl bg-white">
-        <svg class="h-10 w-10 text-gray-300 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="py-24 text-center rounded-2xl" style="border:2px dashed #FDDCCA; background:#FFFBF5;">
+        <svg class="h-10 w-10 mx-auto mb-4" style="color:#FDDCCA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
         </svg>
-        <p class="text-gray-400 mb-4">No orders yet.</p>
-        <a href="{% url 'products' %}" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+        <p class="mb-4" style="color:#FDA07A;">No orders yet.</p>
+        <a href="{% url 'products' %}" class="px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
             Start Shopping
         </a>
     </div>

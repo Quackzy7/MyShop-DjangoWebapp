@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Login — MyShop{% endblock %}
 
 {% block content %}
 <div class="min-h-[80vh] flex items-center justify-center px-4 py-12">
     <div class="w-full max-w-sm">
 
         <div class="mb-8 text-center">
-            <h1 class="text-2xl font-semibold text-gray-900">Welcome back</h1>
-            <p class="mt-1 text-sm text-gray-500">Sign in to your account</p>
+            <h1 class="text-2xl font-bold" style="color:#1C0A00;">Welcome back</h1>
+            <p class="mt-1 text-sm" style="color:#92400E;">Sign in to your account</p>
         </div>
 
         {% if form.non_field_errors %}
-            <div class="mb-4 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-sm text-red-700">
+            <div class="mb-4 px-4 py-3 rounded-xl text-sm" style="background:#FEF2F2; border:1px solid #FECACA; color:#B91C1C;">
                 {% for error in form.non_field_errors %}
                     <p>{{ error }}</p>
                 {% endfor %}
@@ -23,28 +23,28 @@
             {% csrf_token %}
             {% for field in form %}
                 <div>
-                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium mb-1" style="color:#78350F;">
                         {{ field.label }}
                     </label>
                     <div class="{{ field.errors|yesno:'ring-1 ring-red-400,' }}">
                         {{ field }}
                     </div>
                     {% for error in field.errors %}
-                        <p class="mt-1 text-xs text-red-600">{{ error }}</p>
+                        <p class="mt-1 text-xs" style="color:#B91C1C;">{{ error }}</p>
                     {% endfor %}
                 </div>
             {% endfor %}
 
-            <button type="submit" class="w-full py-2.5 px-4 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors mt-2">
+            <button type="submit" class="w-full py-2.5 px-4 text-sm font-semibold rounded-xl transition-colors mt-2" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
                 Login
             </button>
         </form>
 
-        <p class="mt-6 text-center text-sm text-gray-500">
+        <p class="mt-6 text-center text-sm" style="color:#92400E;">
             Don't have an account?
-            <a href="{% url 'buyer_signup' %}" class="text-gray-900 font-medium hover:underline">Buyer signup</a>
-            <span class="text-gray-300 mx-1">|</span>
-            <a href="{% url 'seller_signup' %}" class="text-gray-900 font-medium hover:underline">Seller signup</a>
+            <a href="{% url 'buyer_signup' %}" class="font-semibold transition-colors" style="color:#EA580C;" onmouseover="this.style.color='#C2410C'" onmouseout="this.style.color='#EA580C'">Buyer signup</a>
+            <span class="mx-1" style="color:#FDDCCA;">|</span>
+            <a href="{% url 'seller_signup' %}" class="font-semibold transition-colors" style="color:#EA580C;" onmouseover="this.style.color='#C2410C'" onmouseout="this.style.color='#EA580C'">Seller signup</a>
         </p>
 
     </div>

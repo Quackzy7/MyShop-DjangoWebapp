@@ -8,19 +8,19 @@
     <div class="w-full max-w-sm">
 
         <div class="mb-8 text-center">
-            <h1 class="text-2xl font-semibold text-gray-900">Complete Payment</h1>
-            <p class="mt-1 text-sm text-gray-500">Enter your card details to finish</p>
+            <h1 class="text-2xl font-bold" style="color:#1C0A00;">Complete Payment</h1>
+            <p class="mt-1 text-sm" style="color:#92400E;">Enter your card details to finish</p>
         </div>
 
         <form id="payment-form" class="space-y-5">
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">Card Details</label>
-                <div id="card-element" class="w-full px-3 py-3 border border-gray-300 rounded-lg bg-white focus-within:border-gray-500 transition-colors"></div>
-                <div id="card-errors" role="alert" class="mt-2 text-xs text-red-600"></div>
+                <label class="block text-sm font-medium mb-1" style="color:#78350F;">Card Details</label>
+                <div id="card-element" class="w-full px-3 py-3 rounded-xl transition-colors" style="border:1px solid #FDDCCA; background:#FFF7ED;"></div>
+                <div id="card-errors" role="alert" class="mt-2 text-xs" style="color:#B91C1C;"></div>
             </div>
 
-            <button id="pay-button" type="submit" class="w-full py-2.5 px-4 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+            <button id="pay-button" type="submit" class="w-full py-3 px-4 text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
                 Pay ${{ order.total_price }}
             </button>
 
@@ -38,8 +38,9 @@
         style: {
             base: {
                 fontSize: '14px',
-                color: '#111827',
-                '::placeholder': { color: '#9ca3af' }
+                color: '#1C0A00',
+                '::placeholder': { color: '#FDA07A' },
+                fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif',
             }
         }
     });

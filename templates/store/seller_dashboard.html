@@ -8,50 +8,54 @@
 
     <div class="flex items-center justify-between mb-8">
         <div>
-            <h1 class="text-2xl font-semibold text-gray-900">Seller Dashboard</h1>
-            <p class="mt-1 text-sm text-gray-500">Manage your products</p>
+            <h1 class="text-2xl font-bold" style="color:#1C0A00;">Seller Dashboard</h1>
+            <p class="mt-1 text-sm" style="color:#92400E;">Manage your products</p>
         </div>
-        <a href="{% url 'add_product' %}" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+        <a href="{% url 'add_product' %}" class="px-4 py-2 text-sm font-semibold rounded-xl transition-colors" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
             + Add Product
         </a>
     </div>
 
     {% if products %}
-    <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div class="rounded-2xl overflow-hidden" style="border:1px solid #FDE8D8;">
         <table class="w-full text-sm">
             <thead>
-                <tr class="border-b border-gray-200 bg-gray-50">
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Product</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Price</th>
-                    <th class="text-left px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Stock</th>
-                    <th class="text-right px-5 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Actions</th>
+                <tr style="border-bottom:1px solid #FDE8D8; background:#FFF7ED;">
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Product</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Price</th>
+                    <th class="text-left px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Stock</th>
+                    <th class="text-right px-5 py-3 text-xs font-semibold uppercase tracking-wide" style="color:#92400E;">Actions</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody>
                 {% for product in products %}
-                <tr class="hover:bg-gray-50 transition-colors">
-                    <td class="px-5 py-4 font-medium text-gray-900">{{ product.name }}</td>
-                    <td class="px-5 py-4 text-gray-600">${{ product.price }}</td>
+                <tr style="border-bottom:1px solid #FEF3EC; background:#FFFFFF;" onmouseover="this.style.background='#FFFBF5'" onmouseout="this.style.background='#FFFFFF'">
+                    <td class="px-5 py-4 font-medium" style="color:#1C0A00;">{{ product.name }}</td>
+                    <td class="px-5 py-4 font-semibold" style="color:#EA580C;">${{ product.price }}</td>
                     <td class="px-5 py-4">
                         {% if product.stock > 0 %}
-                            <span class="text-green-700">{{ product.stock }}</span>
+                            <span class="font-medium" style="color:#15803D;">{{ product.stock }}</span>
                         {% else %}
-                            <span class="text-red-500">Out of stock</span>
+                            <span class="text-xs font-medium px-2 py-0.5 rounded-full" style="background:#FEF2F2; color:#B91C1C;">Out of stock</span>
                         {% endif %}
                     </td>
-                    <td class="px-5 py-4 text-right space-x-3">
-                        <a href="{% url 'update_product' product.id %}" class="text-gray-600 hover:text-gray-900 transition-colors">Edit</a>
-                        <a href="{% url 'delete_product' product.id %}" class="text-red-500 hover:text-red-700 transition-colors">Delete</a>
+                    <td class="px-5 py-4 text-right space-x-4">
+                        <a href="{% url 'update_product' product.id %}" class="text-sm font-medium transition-colors" style="color:#78350F;" onmouseover="this.style.color='#EA580C'" onmouseout="this.style.color='#78350F'">Edit</a>
+                        <a href="{% url 'delete_product' product.id %}" class="text-sm font-medium transition-colors" style="color:#DC2626;" onmouseover="this.style.color='#991B1B'" onmouseout="this.style.color='#DC2626'">Delete</a>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
     {% else %}
-    <div class="py-24 text-center border border-dashed border-gray-300 rounded-xl">
-        <p class="text-gray-400 mb-4">You haven't added any products yet.</p>
-        <a href="{% url 'add_product' %}" class="px-4 py-2 bg-gray-900 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition-colors">
+    <div class="py-24 text-center rounded-2xl" style="border:2px dashed #FDDCCA;">
+        <svg class="h-10 w-10 mx-auto mb-4" style="color:#FDDCCA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10"/>
+        </svg>
+        <p class="mb-4" style="color:#FDA07A;">You haven't added any products yet.</p>
+        <a href="{% url 'add_product' %}" class="px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors" style="background:#EA580C; color:#FFFBF5;" onmouseover="this.style.background='#C2410C'" onmouseout="this.style.background='#EA580C'">
             Add your first product
         </a>
     </div>

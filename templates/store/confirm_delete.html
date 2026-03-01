@@ -7,24 +7,24 @@
 <div class="min-h-[70vh] flex items-center justify-center px-4">
     <div class="w-full max-w-sm text-center">
 
-        <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-5">
-            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5" style="background:#FEF2F2;">
+            <svg class="h-7 w-7" style="color:#DC2626;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
             </svg>
         </div>
 
-        <h1 class="text-xl font-semibold text-gray-900">Delete product?</h1>
-        <p class="mt-2 text-sm text-gray-500">
-            You're about to permanently delete <span class="font-medium text-gray-700">{{ product.name }}</span>. This cannot be undone.
+        <h1 class="text-xl font-bold" style="color:#1C0A00;">Delete product?</h1>
+        <p class="mt-2 text-sm leading-relaxed" style="color:#92400E;">
+            You're about to permanently delete <span class="font-semibold" style="color:#1C0A00;">{{ product.name }}</span>. This cannot be undone.
         </p>
 
         <div class="mt-8 flex gap-3 justify-center">
-            <a href="{% url 'seller_dashboard' %}" class="px-5 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+            <a href="{% url 'seller_dashboard' %}" class="px-5 py-2.5 text-sm font-medium rounded-xl transition-colors" style="background:#FFF7ED; color:#78350F; border:1px solid #FDE8D8;" onmouseover="this.style.background='#FEF3EC'" onmouseout="this.style.background='#FFF7ED'">
                 Cancel
             </a>
             <form method="post">
                 {% csrf_token %}
-                <button type="submit" class="px-5 py-2.5 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors">
+                <button type="submit" class="px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors" style="background:#DC2626; color:#FFFFFF;" onmouseover="this.style.background='#991B1B'" onmouseout="this.style.background='#DC2626'">
                     Yes, Delete
                 </button>
             </form>
